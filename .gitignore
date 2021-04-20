@@ -1,0 +1,6 @@
+*.progflow
+Debug
+progflow/Debug
+.vs
+progflow/progflow.vcxproj.*
+progflow/progflow.vcxproj
