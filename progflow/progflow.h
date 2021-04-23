@@ -3,8 +3,10 @@
 #include <unordered_map>
 #include "command.h"
 #include "variable.h"
+#include "runCommands.h"
 
-std::string commandsString[] = {"print", "run", "loop", "if", "end", "store", "string", "int", "float", "double", "open"}; //viable commands that can be the first command (regexf and regexs can't be used standalone)
+std::string commandsString[] = {"print", "run", "loop", "if", "end", "store", "string", "int", "float", "double", "open", "cast"}; //viable commands that can be the first command (regexf and regexs can't be used standalone)
+//i might just make an auto cast later down the line
 
 
 
@@ -29,7 +31,7 @@ public:
 
 bool progflow::verifyCommands() {
 
-	for (int i = 0; i < commands.size(); i++) {
+	for (int i = 0; i < (int) commands.size(); i++) {
 		std::string command = util::getCommand(commands[i]); //the position of the space is also the length of the string that we need, neat!
 		if (!util::search(commandsString, sizeof(commandsString) / sizeof(commandsString[0]), command)) {
 			if (command.substr(0, 1) != "$" && command != "") { //meaning its also not a variable & skip all empty lines
@@ -49,13 +51,6 @@ bool progflow::processCommands() {
 }
 
 bool progflow::runCommands() {
-	for (int i = 0; i < commands.size(); i++) {
-		std::string command = util::getCommand(commands[i]); //the position of the space is also the length of the string that we need, neat!
-		if (command == "run") { //commence the if else galore! 
-			Run run(util::getTextInQuotes(commands[i])); //removes the beginning " and the end " so commands with "s dont get screwed up
-			//todo make sure to make it so it checks if the "s are there
-			run.runCommand();
-		}
-	}
+	util::runCommands(commands);
 	return true;
 }

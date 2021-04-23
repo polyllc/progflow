@@ -1,6 +1,6 @@
 #pragma once
-#include <iostream>
 #include <vector>
+#include "comparator.h"
 
 namespace util { //namespace for anything that might be used twice, or really any function so we can get it away from the source/header files to keep it nice and clean
 	bool search(std::string array[], int size, std::string target) //we do a little copy pasting
@@ -49,4 +49,7 @@ namespace util { //namespace for anything that might be used twice, or really an
 	std::string getTextInP(std::string str) { //for parentheses
 		return str.substr(str.find_first_of("(") + 1, str.find_last_of(")") - 1 - str.find_first_of("("));
 	}
+
+	
+
 }

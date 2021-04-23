@@ -2,10 +2,26 @@
 #include <string>
 #include "util.h"
 #include "progflow.h"
+#include "runCommands.h"
 
 void readFile(std::string filename);
 
 int main(int argc, char** argv) {
+
+	util::comparatorExpression thing(Variable<util::anyVar>(INT, 69), Variable<util::anyVar>(INT, 69), util::EQUAL);
+	util::comparatorExpression things(Variable<util::anyVar>(INT, "122"), Variable<util::anyVar>(INT, "12"), util::NOTEQUAL);
+
+	util::comparatorExpression thing2(true, thing, things, util::AND); //fix
+	//std::cout << thing.evaluate();  //equal to ("hello" != "hello") || ("hello" != "hello")
+	std::cout << "thing2\n\n";
+	std::cout << (thing2.evaluate()); //("hello" != "hello") && ("122" != "12")
+	std::cout << "\n\nthing2 thing2\n\n";
+	util::comparatorExpression thing3(true, thing2, thing2, util::AND);
+	std::cout << thing2.evaluate() && thing2.evaluate();  //equal to (("hello" != "hello") && ("122" != "12")) && (("hello" != "hello") && ("122" != "12"))
+	std::cout << "\n\nthing3\n\n";
+	std::cout << (thing3.evaluate());
+
+	
 
 	if (argc > 0) {
 		//readFile(std::string(argv[1]));
@@ -39,7 +55,7 @@ void readFile(std::string filename) {
 
 	std::vector<std::string> rawCommands = util::split(progflowProgram, "\n"); //split into a vector by newlines
 
-	for (int i = 0; i < rawCommands.size(); i++) { //remove all spaces from the beginning
+	for (int i = 0; i < (int) rawCommands.size(); i++) { //remove all spaces from the beginning
 		while (rawCommands[i].substr(0, 1) == " ") {
 			rawCommands[i].erase(0, 1);
 		}
