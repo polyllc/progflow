@@ -22,25 +22,42 @@ public:
 		this->type = other.getType();
 		this->data = other.readValue();
 	}
-
+	//honestly, I have no idea how this works, maybe std::variant really is that good
 	bool operator== (Variable other) {
 		return other.readValue() == this->readValue();
 	}
 	bool operator!= (Variable other) {
 		return other.readValue() != this->readValue();
 	}
-	bool operator> (Variable other) {
-		return other.readValue() > this->readValue();
-	}
-	bool operator< (Variable other) {
+	bool operator> (Variable other) { //too lazy to swap other.readValue() 
 		return other.readValue() < this->readValue();
 	}
-	bool operator>= (Variable other) {
-		return other.readValue() >= this->readValue();
+	bool operator< (Variable other) {
+		return other.readValue() > this->readValue();
 	}
-	bool operator<= (Variable other) {
+	bool operator>= (Variable other) {
 		return other.readValue() <= this->readValue();
 	}
+	bool operator<= (Variable other) {
+		return other.readValue() >= this->readValue();
+	}
+
+	T operator+ (Variable other) {
+		return other.readValue() + this->readValue();
+	}
+	T operator- (Variable other) {
+		return this->readValue() - other.readValue();
+	}
+	T operator* (Variable other) {
+		return this->readValue() * other.readValue();
+	}
+	T operator/ (Variable other) {
+		return this->readValue() / other.readValue();
+	}
+	T operator% (Variable other) {
+		return this->readValue() % other.readValue();
+	}
+
 };
 
 template<class T>
