@@ -3,10 +3,10 @@
 #include <unordered_map>
 #include "command.h"
 #include "variable.h"
-#include "runCommands.h"
 
-std::string commandsString[] = {"print", "run", "loop", "if", "end", "store", "input", "string", "int", "float", "double", "open", "cast"}; //viable commands that can be the first command (regexf and regexs can't be used standalone)
+std::string commandsString[] = {"print", "run", "loop", "if", "end", "store", "input", "string", "int", "float", "double", "open", "cast", "write"}; //viable commands that can be the first command (regexf and regexs can't be used standalone)
 //i might just make an auto cast later down the line
+
 
 
 
@@ -14,11 +14,6 @@ class progflow {
 private:
 	std::vector<std::string> commands;
 
-	//for the maps below, we might run into some problems with memory, but hopefully it shouldn't be *too* bad, we need the lookup speed to check if variable names already exist (ie, $var is a string, don't make a duplicate in int)
-	std::unordered_map<std::string, Variable<int>> intVariables;
-	std::unordered_map<std::string, Variable<float>> floatVariables;
-	std::unordered_map<std::string, Variable<double>> doubleVariables;
-	std::unordered_map<std::string, Variable<std::string>> stringVariables;
 
 public:
 	progflow(std::vector<std::string> cmds) : commands(cmds) {}
@@ -26,22 +21,35 @@ public:
 
 	bool verifyCommands(); //essentially, we check if the beginning of a line starts with a real command (or variable)
 	bool processCommands();
-	bool runCommands();
+	bool run();
+	std::vector<std::string> getCommands();
+
+	std::unordered_map<std::string, Variable<anyVar>> intVariables;
+	std::unordered_map<std::string, Variable<anyVar>> floatVariables;
+	std::unordered_map<std::string, Variable<anyVar>> doubleVariables;
+	std::unordered_map<std::string, Variable<anyVar>> stringVariables;
+
 };
 
 bool progflow::verifyCommands() {
-
+	bool verified = true;
 	for (int i = 0; i < (int) commands.size(); i++) {
 		std::string command = util::getCommand(commands[i]); //the position of the space is also the length of the string that we need, neat!
 		if (!util::search(commandsString, sizeof(commandsString) / sizeof(commandsString[0]), command)) {
-			if (command.substr(0, 1) != "$" && command != "") { //meaning its also not a variable & skip all empty lines
-				std::cout << "Unknown command \"" << command << "\". Make sure it's all in lowercase.";
-				return false;
+			if (command.substr(0, 1) != "$" && command != "" && command.substr(0, 2) != "//") { //meaning its also not a variable & skip all empty lines
+				std::cout << "Unknown command \"" << command << "\". Make sure it's all in lowercase.\n";
+				verified = false;
+			}
+		}
+		if (command == "int" || command == "string" || command == "float" || command == "double") {
+			if (commands[i].substr(command.size() + 1).substr(0, 1) != "$") {
+				std::cout << "Invalid variable, add a $ before any variable (line was " << commands[i] << " , maybe try making it " << command << " $" << commands[i].substr(command.size() + 1) << "?)\n";
+				verified = false;
 			}
 		}
 	}
 
-	return true;
+	return verified;
 }
 
 bool progflow::processCommands() {
@@ -50,7 +58,6 @@ bool progflow::processCommands() {
 	return true;
 }
 
-bool progflow::runCommands() {
-	util::runCommands(commands);
-	return true;
+std::vector<std::string> progflow::getCommands() {
+	return commands;
 }

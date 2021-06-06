@@ -2,7 +2,7 @@
 #include "util.h"
 #include "command.h"
 #include "comparator.h"
-
+using anyVar = std::variant<int, float, double, std::string>;
 template <class T>
 class Variable { 
 private:
@@ -43,19 +43,49 @@ public:
 	}
 
 	T operator+ (Variable other) {
-		return other.readValue() + this->readValue();
+		switch (type) {
+		case STRING: return anyVar (std::get<std::string>(this->readValue()) + std::get<std::string>(other.readValue()));
+		case FLOAT: return anyVar (std::get<float>(this->readValue()) + std::get<float>(other.readValue()));
+		case DOUBLE: return anyVar (std::get<double>(this->readValue()) + std::get<double>(other.readValue()));
+		case INT: return anyVar (std::get<int>(this->readValue()) + std::get<int>(other.readValue()));
+		default: std::cout << "FATAL ERROR: Unknown type to add (types were not a string, float, double or int)"; exit(0);
+		}
 	}
 	T operator- (Variable other) {
-		return this->readValue() - other.readValue();
+		switch (type) {
+		case STRING: std::cout << "FATAL ERROR: Cannot subtract a string from another"; exit(0);
+		case FLOAT: return anyVar(std::get<float>(this->readValue()) - std::get<float>(other.readValue()));
+		case DOUBLE: return anyVar(std::get<double>(this->readValue()) - std::get<double>(other.readValue()));
+		case INT: return anyVar(std::get<int>(this->readValue()) - std::get<int>(other.readValue()));
+		default: std::cout << "FATAL ERROR: Unknown type to subtract (types were not a string, float, double or int)"; exit(0);
+		}
 	}
 	T operator* (Variable other) {
-		return this->readValue() * other.readValue();
+		switch (type) {
+		case STRING: std::cout << "FATAL ERROR: Cannot multiply strings with each other"; exit(0);
+		case FLOAT: return anyVar(std::get<float>(this->readValue()) * std::get<float>(other.readValue()));
+		case DOUBLE: return anyVar(std::get<double>(this->readValue()) * std::get<double>(other.readValue()));
+		case INT: return anyVar(std::get<int>(this->readValue()) * std::get<int>(other.readValue()));
+		default: std::cout << "FATAL ERROR: Unknown type to multiply (types were not a string, float, double or int)"; exit(0);
+		}
 	}
 	T operator/ (Variable other) {
-		return this->readValue() / other.readValue();
+		switch (type) {
+		case STRING: std::cout << "FATAL ERROR: Cannot divide strings with each other"; exit(0);
+		case FLOAT: return anyVar(std::get<float>(this->readValue()) / std::get<float>(other.readValue()));
+		case DOUBLE: return anyVar(std::get<double>(this->readValue()) / std::get<double>(other.readValue()));
+		case INT: return anyVar(std::get<int>(this->readValue()) / std::get<int>(other.readValue()));
+		default: std::cout << "FATAL ERROR: Unknown type to divide (types were not a string, float, double or int)"; exit(0);
+		}
 	}
 	T operator% (Variable other) {
-		return this->readValue() % other.readValue();
+		switch (type) {
+		case STRING: std::cout << "FATAL ERROR: Cannot modulate 2 strings"; exit(0);
+		case FLOAT: std::cout << "FATAL ERROR: Cannot modulate 2 floats"; exit(0);
+		case DOUBLE: std::cout << "FATAL ERROR: Cannot modulate 2 doubles"; exit(0);
+		case INT: return anyVar(std::get<int>(this->readValue()) % std::get<int>(other.readValue()));
+		default: std::cout << "FATAL ERROR: Unknown type to modulate (types were not a string, float, double or int)"; exit(0);
+		}
 	}
 
 };

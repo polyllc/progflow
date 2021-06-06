@@ -3,7 +3,7 @@
 #include <vector>
 
 enum Type {
-	NONE, PRINT, RUN, STORE, OPEN, STRING, INPUT, INT, FLOAT, DOUBLE, CAST, REGEXFIND, REGEXREPLACE, ASSIGNMENT //string, int, float and double are all types that are used at assign (i.e string $my_var = "hello world" we want that to be an explicit type so we don't get any problems (more work on the user not us))
+	NONE, PRINT, RUN, STORE, OPEN, STRING, INPUT, INT, FLOAT, DOUBLE, CAST, REGEXFIND, REGEXREPLACE, ASSIGNMENT, WRITE //string, int, float and double are all types that are used at assign (i.e string $my_var = "hello world" we want that to be an explicit type so we don't get any problems (more work on the user not us))
 };
 
 class Command {
@@ -13,6 +13,8 @@ public:
 	Command(){} 
 	~Command(){}
 };
+
+
 
 
 class Run : Command{

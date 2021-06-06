@@ -2,7 +2,14 @@
 #include <vector>
 #include "comparator.h"
 
+
+
 namespace util { //namespace for anything that might be used twice, or really any function so we can get it away from the source/header files to keep it nice and clean
+
+		//for the maps below, we might run into some problems with memory, but hopefully it shouldn't be *too* bad, we need the lookup speed to check if variable names already exist (ie, $var is a string, don't make a duplicate in int)
+
+
+	using anyVar = std::variant<int, float, double, std::string>;
 	bool search(std::string array[], int size, std::string target) //we do a little copy pasting
 	{
 		for (int i = 0; i < size; ++i)
@@ -25,7 +32,7 @@ namespace util { //namespace for anything that might be used twice, or really an
 		}
 	}
 
-	std::vector<std::string> split(std::string &str, std::string delimiter) { //we might have to do some overloading on this one 
+	std::vector<std::string> split(std::string &str, std::string delimiter) {
 		size_t pos = 0;
 		std::string token;
 		std::vector<std::string> result;
@@ -50,6 +57,7 @@ namespace util { //namespace for anything that might be used twice, or really an
 		return str.substr(str.find_first_of("(") + 1, str.find_last_of(")") - 1 - str.find_first_of("("));
 	}
 
-	
+
+
 
 }

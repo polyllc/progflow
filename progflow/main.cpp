@@ -3,12 +3,21 @@
 #include "util.h"
 #include "progflow.h"
 #include "runCommands.h"
+#include "variable.h"
+#include "arithmetic.h"
 
 void readFile(std::string filename);
 
 int main(int argc, char** argv) {
+	
+	/*Variable<util::anyVar> nice(INT, 69);
+	Variable<util::anyVar> nice2(STRING, "wow");
 
-	util::comparatorExpression thing(Variable<util::anyVar>(INT, 69), Variable<util::anyVar>(INT, 789), util::GETHAN);
+	nice = nice2;
+	std::cout << std::get<std::string>(nice.readValue());
+
+
+	util::comparatorExpression thing(Variable<util::anyVar>(INT, nice.readValue()), Variable<util::anyVar>(INT, 789), util::GETHAN);
 	util::comparatorExpression things(Variable<util::anyVar>(INT, "122"), Variable<util::anyVar>(INT, "12"), util::NOTEQUAL);
 
 	util::comparatorExpression thing2(thing, things, util::OR); //fix
@@ -24,9 +33,14 @@ int main(int argc, char** argv) {
 	std::cout << thing2.evaluate() && thing2.evaluate();  //equal to (("hello" != "hello") && ("122" != "12")) && (("hello" != "hello") && ("122" != "12"))
 	std::cout << "\n\nthing3\n\n";
 	std::cout << (thing3.evaluate());
-
+	
 	
 
+	util::arithmetic num(Variable<util::anyVar>(STRING, "hello "), Variable<util::anyVar>(STRING, "world"), util::ADD);
+	std::cout << std::get<std::string> (num.evaluate());
+
+	
+	*/
 	if (argc > 0) {
 		//readFile(std::string(argv[1]));
 		readFile("test.progflow");
@@ -72,7 +86,7 @@ void readFile(std::string filename) {
 	}
 	std::cout << "Verified Commands!\n\n";
 
-	program.runCommands();
+	util::runCommands(program.getCommands(), program);
 
 	std::cout << "ProgFlow ran successfully! Press enter to quit.";
 	std::string wedoalittlewaiting;
