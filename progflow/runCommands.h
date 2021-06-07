@@ -28,7 +28,17 @@ namespace util {
 		}
 	}
 
+	std::string replaceWithEscapeChars(std::string str) {
+		util::replaceAll(str, "\\n", "\n");
+		util::replaceAll(str, "\\t", "\t");
+		util::replaceAll(str, "\\r", "\r");
+		util::replaceAll(str, "\\b", "\b");
+		util::replaceAll(str, "\\f", "\f");
+		return str;
+	}
+
 	std::string replaceWithVarString(progflow program, std::string str) { //todo update so $ in quotes do not replace, and make sure its in this format: $var + "wow" + $another_var
+		str = replaceWithEscapeChars(str);
 		std::string finalStr;
 		if (str.find_first_of("$") != std::string::npos) {
 			while (str.find_first_of("$") != std::string::npos) {
@@ -55,7 +65,7 @@ namespace util {
 
 	bool runCommands(std::vector<std::string> commands, progflow program) {
 		for (int i = 0; i < (int) commands.size(); i++) {
-			std::string command = util::getCommand(commands[i]); //the position of the space is also the length of the string that we need, neat!
+			std::string command = util::getCommand(commands[i]); 
 			if (command == "run") { //commence the if galore! 
 				Run run(util::getTextInQuotes(commands[i])); //removes the beginning " and the end " so commands with "s dont get screwed up
 				//todo make sure to make it so it checks if the "s are there
@@ -103,8 +113,53 @@ namespace util {
 
 			}
 
+			if (command == "float") {
+				std::string contents = commands[i].substr(command.size() + 2); //gets stuff after the command and the space following it
+				std::string value = contents.substr(contents.find_first_of("=") + 1);
+				float finalVal;
+				std::string varname = contents.substr(0, contents.find_first_of(" "));
+				try {
+					finalVal = std::stof(value);
+				}
+				catch (std::invalid_argument exep) {
+					std::cout << "Value is not an float when assigning to variable " << varname;
+					exit(1);
+				}
+
+				if (getVariable(program, varname).getType() == NONE) {
+					std::pair<std::string, Variable<anyVar>> var(varname, Variable<anyVar>(FLOAT, finalVal)); //creates a new pair which is then inserted into the map
+					program.floatVariables.insert(var);
+				}
+				else {
+					program.floatVariables[varname] = Variable<anyVar>(FLOAT, finalVal); //update variable at key
+				}
+			}
+
+			if (command == "double") {
+				std::string contents = commands[i].substr(command.size() + 2); //gets stuff after the command and the space following it
+				std::string value = contents.substr(contents.find_first_of("=") + 1);
+				double finalVal;
+				std::string varname = contents.substr(0, contents.find_first_of(" "));
+				try {
+					finalVal = std::stod(value);
+				}
+				catch (std::invalid_argument exep) {
+					std::cout << "Value is not an double when assigning to variable " << varname;
+					exit(1);
+				}
+
+				if (getVariable(program, varname).getType() == NONE) {
+					std::pair<std::string, Variable<anyVar>> var(varname, Variable<anyVar>(DOUBLE, finalVal)); //creates a new pair which is then inserted into the map
+					program.doubleVariables.insert(var);
+				}
+				else {
+					program.doubleVariables[varname] = Variable<anyVar>(DOUBLE, finalVal); //update variable at key
+				}
+			}
+
+
 			if (command == "print") {
-				std::cout <<replaceWithVarString(program, commands[i].substr(command.size() + 1));
+				std::cout << replaceWithVarString(program, commands[i].substr(command.size() + 1));
 			}
 
 		}
