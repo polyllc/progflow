@@ -67,8 +67,4 @@ namespace util { //namespace for anything that might be used twice, or really an
 			start_pos += to.length(); // In case 'to' contains 'from', like replacing 'x' with 'yx'
 		}
 	}
-
-
-
-
 }

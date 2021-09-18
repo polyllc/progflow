@@ -28,7 +28,10 @@ namespace util {
 		}
 	}
 
-	std::string replaceWithEscapeChars(std::string str) {
+
+		
+	std::string replaceWithEscapeChars(std::string &str) {
+		//std::cout << str.find("\\n");
 		util::replaceAll(str, "\\n", "\n");
 		util::replaceAll(str, "\\t", "\t");
 		util::replaceAll(str, "\\r", "\r");
@@ -38,13 +41,14 @@ namespace util {
 	}
 
 	std::string replaceWithVarString(progflow program, std::string str) { //todo update so $ in quotes do not replace, and make sure its in this format: $var + "wow" + $another_var
-		str = replaceWithEscapeChars(str);
 		std::string finalStr;
 		if (str.find_first_of("$") != std::string::npos) {
 			while (str.find_first_of("$") != std::string::npos) {
-				finalStr += str.substr(0, str.find_first_of("$"));
-				str = str.substr(str.find_first_of("$"));
+				finalStr += str.substr(0, str.find_first_of("$")); //get everything before the variable to replace
+				str = str.substr(str.find_first_of("$")); //removes everything before the $
+
 				int len = (str.find_first_of(" ") != std::string::npos ? str.substr(1, str.find_first_of(" ")).size()-1 : str.size()); //this is a great approach and will definitely not break
+
 				Variable<anyVar> tempVar = getVariable(program, str.substr(1, len));
 				if (tempVar.getType() != NONE) {
 					switch (tempVar.getType()) {
@@ -60,7 +64,17 @@ namespace util {
 		else {
 			return str;
 		}
-		return finalStr;
+		return finalStr + str; //make sure to add the rest of the str
+	}
+	std::string formatString(progflow program, std::string str) {
+		std::string tempVarStr = replaceWithVarString(program, str);
+		return replaceWithEscapeChars(tempVarStr);
+	}
+
+	void printOneByOne(std::string str) {
+		for (int i = 0; i < str.size(); i++) {
+			std::cout << str[i] << '\n';
+		}
 	}
 
 	bool runCommands(std::vector<std::string> commands, progflow program) {
@@ -84,7 +98,7 @@ namespace util {
 				try {
 					finalVal = std::stoi(value);
 				}
-				catch (std::invalid_argument exep) {
+				catch (std::invalid_argument excep) {
 					std::cout << "Value is not an integer when assigning to variable " << varname;
 					exit(1);
 				}
@@ -121,7 +135,7 @@ namespace util {
 				try {
 					finalVal = std::stof(value);
 				}
-				catch (std::invalid_argument exep) {
+				catch (std::invalid_argument excep) {
 					std::cout << "Value is not an float when assigning to variable " << varname;
 					exit(1);
 				}
@@ -143,7 +157,7 @@ namespace util {
 				try {
 					finalVal = std::stod(value);
 				}
-				catch (std::invalid_argument exep) {
+				catch (std::invalid_argument excep) {
 					std::cout << "Value is not an double when assigning to variable " << varname;
 					exit(1);
 				}
@@ -159,7 +173,7 @@ namespace util {
 
 
 			if (command == "print") {
-				std::cout << replaceWithVarString(program, commands[i].substr(command.size() + 1));
+				std::cout << formatString(program, commands[i].substr(command.size() + 1));
 			}
 
 		}

@@ -9,38 +9,7 @@
 void readFile(std::string filename);
 
 int main(int argc, char** argv) {
-	
-	/*Variable<util::anyVar> nice(INT, 69);
-	Variable<util::anyVar> nice2(STRING, "wow");
 
-	nice = nice2;
-	std::cout << std::get<std::string>(nice.readValue());
-
-
-	util::comparatorExpression thing(Variable<util::anyVar>(INT, nice.readValue()), Variable<util::anyVar>(INT, 789), util::GETHAN);
-	util::comparatorExpression things(Variable<util::anyVar>(INT, "122"), Variable<util::anyVar>(INT, "12"), util::NOTEQUAL);
-
-	util::comparatorExpression thing2(thing, things, util::OR); //fix
-
-	std::cout << thing.evaluate();
-	std::cout << things.evaluate();
-
-	//std::cout << thing.evaluate();  //equal to ("hello" != "hello") || ("hello" != "hello")
-	std::cout << "thing2\n\n";
-	std::cout << (thing2.evaluate()); //("hello" != "hello") && ("122" != "12")
-	std::cout << "\n\nthing2 thing2\n\n";
-	util::comparatorExpression thing3(thing2, thing2, util::AND);
-	std::cout << thing2.evaluate() && thing2.evaluate();  //equal to (("hello" != "hello") && ("122" != "12")) && (("hello" != "hello") && ("122" != "12"))
-	std::cout << "\n\nthing3\n\n";
-	std::cout << (thing3.evaluate());
-	
-	
-
-	util::arithmetic num(Variable<util::anyVar>(STRING, "hello "), Variable<util::anyVar>(STRING, "world"), util::ADD);
-	std::cout << std::get<std::string> (num.evaluate());
-
-	
-	*/
 	if (argc > 0) {
 		//readFile(std::string(argv[1]));
 		readFile("test.progflow");
@@ -48,7 +17,6 @@ int main(int argc, char** argv) {
 	else {
 		std::cout << "\nInput a .progflow file in order to run it.\n";
 	}
-
 	return 0;
 }
 
@@ -87,7 +55,7 @@ void readFile(std::string filename) {
 	std::cout << "Verified Commands!\n\n";
 
 	util::runCommands(program.getCommands(), program);
-
+	
 	std::cout << "ProgFlow ran successfully! Press enter to quit.";
 	std::string wedoalittlewaiting;
 	std::getline(std::cin, wedoalittlewaiting);

@@ -6,8 +6,6 @@
 namespace util {
 	enum comparator { AND, OR, NOTEQUAL, EQUAL, GTHAN, LTHAN, GETHAN, LETHAN };
 	using anyVar = std::variant<int, float, double, std::string>; //nvm i figured out how to use variants
-
-	
 	//-------------------------------------
 	//		comparatorExpression
 	// compares a right hand side and

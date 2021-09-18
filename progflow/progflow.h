@@ -4,7 +4,7 @@
 #include "command.h"
 #include "variable.h"
 
-std::string commandsString[] = {"print", "run", "loop", "if", "end", "store", "input", "string", "int", "float", "double", "open", "cast", "write"}; //viable commands that can be the first command (regexf and regexs can't be used standalone)
+std::string commandsString[] = {"print", "run", "loop", "if", "end", "store", "input", "string", "int", "float", "double", "open", "cast", "write", "program"}; //viable commands that can be the first command (regexf and regexs can't be used standalone)
 //i might just make an auto cast later down the line
 
 
