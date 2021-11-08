@@ -2,7 +2,7 @@
   "programType":"cpp",
   
   "compile":{
-    "mainFile":"src/main.cpp",
+    "mainFile":"progflow/main.cpp",
     "method":"singleg++",
   }
 }
