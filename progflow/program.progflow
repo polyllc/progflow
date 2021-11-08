@@ -1,0 +1,35 @@
+//a sample progflow program!
+//comments are //'s
+//no quotes for now for string variables, probably should change that
+//beginning whitespace is ignored 
+
+run "test"; //run is the command to run anything as if it were on a terminal 
+   loop (10) //loop 10 times, can also have an expression in there
+	  loop (10)
+         
+	      run "ffmpeg -i "a.flac" "a.wav""
+	      store "test" into string $hello_world //stores the output of test.exe to variable hello_world, 
+				open "test.txt" into string $file //copies and pastes the content of "test.txt" into the string $file
+				write program "test" into "test.txt" //writes the output of test.exe into "test.txt"
+				write string $hello_world into "test.txt" //writes the variable $hello_world into "test.txt"
+				write "hello world!" into "test.txt" //writes the string "hello world!" into "test.txt"
+		  if ($hello_world == "hello world") //if statement, could be using braces, or not! depending on whats easier to implement
+			 $hello_world = ":)"
+		 end if 
+		  print $hello_word
+	 end loop
+	    if (10 > 2)
+	end if
+end loop
+int $new_var = 2
+int $new_var = 5
+int $new_variable = 69
+string $strvar = no way!!! \n \t \t \t
+string $strvar = no\n
+print $strvar $strvar
+float $float = 0.2222
+print $float \n 
+print \n\n\n\t\t\thello world? :)
+double $double = 2.2424 
+print $double \n 
+if (regexf("/^\[(.*?)\](\(.*?\))$/", $) == ) //incomplete regex expression, I have no idea how regex should be implemented
