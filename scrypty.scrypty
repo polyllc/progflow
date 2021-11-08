@@ -2,7 +2,9 @@
   "programType":"cpp",
   
   "compile":{
-    "mainFile":"progflow/main.cpp",
-    "method":"singleg++"
+    "method":"custom",
+    "commands":[
+      { "cmd":"g++ -std=c++17 progflow/main.cpp -o progflow.exe" }
+    ]
   }
 }
