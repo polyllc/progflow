@@ -1,0 +1,8 @@
+{
+  "programType":"cpp",
+  
+  "compile":{
+    "mainFile":"src/main.cpp",
+    "method":"singleg++",
+  }
+}
