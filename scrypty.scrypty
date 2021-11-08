@@ -3,6 +3,6 @@
   
   "compile":{
     "mainFile":"progflow/main.cpp",
-    "method":"singleg++",
+    "method":"singleg++"
   }
 }
