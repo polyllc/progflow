@@ -12,7 +12,7 @@ int main(int argc, char** argv) {
 
 	if (argc > 0) {
 		//readFile(std::string(argv[1]));
-		readFile("test.progflow");
+		readFile("progflow.progflow");
 	}
 	else {
 		std::cout << "\nInput a .progflow file in order to run it.\n";
