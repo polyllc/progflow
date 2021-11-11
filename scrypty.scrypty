@@ -2,7 +2,7 @@
   "programType":"cpp",
   
   "compile":{
-    "all"{
+    "all":{
       "method":"custom",
         "commands":[
           { "cmd":"g++ -std=c++17 progflow/progflow/main.cpp -o progflow/progflow.exe" }
