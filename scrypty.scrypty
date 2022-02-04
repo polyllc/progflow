@@ -3,7 +3,7 @@
   
   "compile":{
     "all":{
-      "method":"custom",
+      "methodbad":"custom",
         "commands":[
           { "cmd":"g++ -std=c++17 progflow/progflow/main.cpp -o progflow/progflow.exe" }
         ]
